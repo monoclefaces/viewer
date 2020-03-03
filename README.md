@@ -3,12 +3,13 @@
 ```bash
 ├── main.py
 ├── trainer
-│   ├── trainer.py     # Trainer (train, valid 함수 등)
+│   ├── __init__.py
 │   ├── dataloader.py  # Dataset 및 DataLoader
-│   └── __init__.py
+│   └── trainer.py     # Trainer (train, valid 함수 등)
 └── viewer
     ├── __init__.py
     ├── attention      # Attention Modules
     ├── evalutation    # Evaluation Methods
     └── saliency       # Attribution Method
 ```
+
