@@ -21,12 +21,12 @@ class VanillaGrad(Viewer):
         x.requires_grad_(requires_grad=True)
         self.model.zero_grad()
         o = self.model(x)
-        grad = self._one_hot(t, module_name="fc")
+        grad = self.one_hot(outputs=o, targets=t)
         o.backward(grad)
         x_grad = x.grad.data.clone().detach()
         x.requires_grad_(requires_grad=False)
         x_grad = x_grad if self.no_abs_grad else torch.abs(x_grad)
         x_grad = self.rescale(x_grad, mode=self.rescale_mode)
-        return x_grad
+        return x_grad  # (B, C, H, W)
 
     

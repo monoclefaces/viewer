@@ -12,11 +12,8 @@ class Viewer(nn.Module):
 
         Args: 
             model: a neural network implemented using PyTorch
-            seq_name: (optional) the variable name which is pointed to convolutional layer in your network 
         """
         self.reset_maps()
-        # convolution layer
-        self.seq_name = "features" if "seq_name" not in kwargs.keys() else kwargs.get("seq_name")
         # evaluation mode
         self.model = deepcopy(model)
         self.model.cpu()
@@ -24,15 +21,15 @@ class Viewer(nn.Module):
 
         # define hook layer (forward or backword)
         self.hook_layers()
-
-    def view(self, datas, targets, **kwargs):
+        
+    def view(self, datas, targets, **kwargs) -> Viewer:
         r"""
         Generate saliency maps
         """
         
         raise NotImplementedError
 
-    def hook_layer(self):
+    def hook_layer(self) -> Viewer:
         r"""
         Define Hook layer that you've interested in(either forward or backward) 
         Have to define `hook_function` to pass
@@ -40,14 +37,14 @@ class Viewer(nn.Module):
         
         raise NotImplementedError
 
-    def save(self, manager, savedir=None, **kwargs):
+    def save(self, manager, savedir=None, **kwargs) -> Viewer:
         r"""
         Save saliency maps
         """
 
         raise NotImplementedError
 
-    def rescale(self, tensor, mode=1):
+    def rescale(self, tensor, mode=1) -> Viewer:
         r"""
         Rescale the saliency maps and convert the pixels into 0~255 range.
         Default rescaling option is 'Min-Max'.
@@ -77,7 +74,20 @@ class Viewer(nn.Module):
 
         return (tensor.view(B, C, H, W) * 255).byte()
 
-    def reset_maps(self):
+    def one_hot(self, outputs, targets) -> Viewer:
+        r"""
+        Create one-hot vector
+        Args:
+            outputs: final outputs of network, size=(B, C)
+            targets: target vectors, size=(B,)
+
+            * B: batch size
+            * C: class size
+        """
+        onehot = torch.zeros_like(outputs.detach()).scatter(1, targets.unsqueeze(1), 1.0)
+        return onehot
+
+    def reset_maps(self) -> Viewer:
         r"""
         Reset `self.maps`
         """
