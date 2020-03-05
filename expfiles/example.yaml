@@ -1,0 +1,36 @@
+# type settings
+type_args:
+  data_type: mnist      # 필요 없을지도?
+  eval_type: roar
+  model_type: resnet18  # 필요 없을지도?
+  attr_type: 
+    - vanillagrad
+    - inputgrad
+
+# saliency settings
+saliency_args:
+  rescale_mode: 1
+  no_abs_grad: False
+
+evaluation_args:
+  channel_reduction: True
+  
+
+# --- 개인작성 --- 
+
+# training settings
+train_args:
+  optim: adam
+  lr: 0.001
+  batch_size: 256
+
+
+# model settings  > 따로 만들기
+model_args:
+  # example: ResNet
+  block: BasicBlock
+  layers: [2, 2, 2, 2]
+  num_classes: 1000
+
+# --- 개인작성 --- 
+
