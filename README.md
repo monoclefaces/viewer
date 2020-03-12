@@ -24,3 +24,4 @@ pyyaml >= 5.3
     └── saliency       # Attribution Method
 ```
 
+# Copyrignt
