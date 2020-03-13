@@ -1,7 +1,7 @@
-
 from pathlib import Path
 from typing import Union
 import yaml
+
 
 class Config(object):
     """Basic Config Class"""
@@ -83,6 +83,8 @@ class Config(object):
     def conf(self):
         return self.__dict__
 
+
+
 class Checkpoints(object):
     """Model Checkpoint Manager"""
     def __init__(self, cfg):
@@ -99,3 +101,4 @@ class Checkpoints(object):
         r"""
         Save training stats
         """
+
