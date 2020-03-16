@@ -34,25 +34,21 @@ class Config(object):
         data_path: "./data"
 
         experiment: 
-            eval_type: "roar"  
-            attr_type: 
-                - "vanillagrad"
-                - "inputgrad"
-            sv_name: "custom_model"
+          eval_type: "roar"  
+          attr_type: 
+            - "vanillagrad"
+            - "inputgrad"
+          sv_name: "custom_model"
 
         # saliency settings
         postprocessor:
             collaspe_mode: 0
-
-        evaluator:
-            channel_reduction: True
         ...
         ```
         """
         self.cfg_yaml_path = Path(cfg_yaml_path)
         with self.cfg_yaml_path.open(mode="r", encoding="utf-8") as f:
             conf = yaml.load(f, Loader=yaml.FullLoader)
-        # self.__dict__.update(conf)
         self.setting_by_cfg_file(conf)
     
     @property
@@ -152,6 +148,7 @@ class ConfigChecker(object):
 
     @staticmethod
     def check_dir_exist(path:Union[str, Path], file:bool=False):
+
         r"""
         Check directory file is exists, if not exists will create one
 

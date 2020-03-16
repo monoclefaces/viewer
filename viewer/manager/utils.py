@@ -4,6 +4,7 @@ from PIL import Image
 from torchvision import transforms
 import matplotlib.pyplot as plt
 
+
 def one_hot(outputs, targets) -> None:
     r"""
     Create one-hot vector
@@ -18,6 +19,7 @@ def one_hot(outputs, targets) -> None:
     """
     onehot = torch.zeros_like(outputs).scatter(1, targets.unsqueeze(1), 1.0)
     return onehot
+
 
 class ImageProcessor(object):
     """ImageProcessor"""
