@@ -1,9 +1,9 @@
 from .base import Config
 from .postprocessor import PostProcessor
-from .utils import one_hot
+from .utils import one_hot, ImageProcessor
 
 __all__ = [
     "Config", "PostProcessor",
-    # functions
-    "one_hot"
+    # utils
+    "one_hot", "ImageProcessor"
 ]
