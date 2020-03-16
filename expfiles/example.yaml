@@ -1,6 +1,7 @@
 # general settings
-project_path: "."
-data_path: "./data"
+default:
+  project_path: "."
+  data_path: "./data"
 
 experiment: 
   eval_type: "roar"  
@@ -12,7 +13,3 @@ experiment:
 # saliency settings
 postprocessor:
   collaspe_mode: 0
-  no_abs: False
-
-evaluator:
-  channel_reduction: True
