@@ -4,10 +4,6 @@ from PIL import Image
 from torchvision import transforms
 import matplotlib.pyplot as plt
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 48eb2e39fa96db76073f6fdef977de9dd1f8628f
 def one_hot(outputs, targets) -> None:
     r"""
     Create one-hot vector
@@ -23,10 +19,6 @@ def one_hot(outputs, targets) -> None:
     onehot = torch.zeros_like(outputs).scatter(1, targets.unsqueeze(1), 1.0)
     return onehot
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 48eb2e39fa96db76073f6fdef977de9dd1f8628f
 class ImageProcessor(object):
     """ImageProcessor"""
     @staticmethod
@@ -86,8 +78,4 @@ class ImageProcessor(object):
         img_tensor = cls.img_process(img).to(device)
         if zero:
             img_tensor = torch.zeros_like(img_tensor)
-<<<<<<< HEAD
         return img_tensor
-=======
-        return img_tensor
->>>>>>> 48eb2e39fa96db76073f6fdef977de9dd1f8628f
