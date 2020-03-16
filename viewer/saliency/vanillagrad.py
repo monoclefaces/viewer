@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from .base import Viewer
+from ..manager import PostProcessor, one_hot
 
 class VanillaGrad(Viewer):
     """Vanilla Gradient Attribution Method"""
@@ -9,24 +10,35 @@ class VanillaGrad(Viewer):
         Reference Paper: https://arxiv.org/abs/1312.6034
 
         Args:
-            model: 
-            rescale_mode: `Viewer.rescale` argument
-            no_abs_grad: (option) not absolute the gradient of features
+            model: model to view saliency maps
+            (option) collapse_mode: whether to collapse the channel dimension of saliency maps to 1, option arguments:
+                * [default]: 2
+                * 0: no collapse
+                * 1: mean
+                * 2: max 
+                * 3: gray-scale (have to rescale to 0~255)
         """
         super().__init__(model)
-        self.rescale_mode = 1 if kwargs.get("rescale_mode") is None else kwargs.get("rescale_mode")
-        self.no_abs_grad = False if kwargs.get("no_abs_grad") is None else kwargs.get("no_abs_grad")
+        # PostProcessor arugments
+        self.collapse_mode = 2 if kwargs.get("collapse_mode") is None else kwargs.get("collapse_mode")
 
-    def view(self, x, t):
+    def view(self, x:torch.FloatTensor, t:torch.LongTensor, **kwargs):
+        r"""
+        Generate saliency maps
+        Args:
+            x: input datas, size of (B, C, H, W)
+            t: target datas, size of (B,)
+        
+        Return:
+            Saliency map, size of (B, C, H, W)
+        """
         x.requires_grad_(requires_grad=True)
         self.model.zero_grad()
         o = self.model(x)
-        grad = self.one_hot(outputs=o, targets=t)
+        grad = one_hot(outputs=o, targets=t)
         o.backward(grad)
-        x_grad = x.grad.data.clone().detach()
+        saliency = x.grad.data.clone().detach()
         x.requires_grad_(requires_grad=False)
-        x_grad = x_grad if self.no_abs_grad else torch.abs(x_grad)
-        x_grad = self.rescale(x_grad, mode=self.rescale_mode)
-        return x_grad  # (B, C, H, W)
 
-    
+        saliency = PostProcessor.process(saliency, self.collapse_mode)
+        return saliency
