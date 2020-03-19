@@ -13,4 +13,3 @@ experiment:
 # saliency settings
 postprocessor:
   collaspe_mode: 0
-

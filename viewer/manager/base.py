@@ -148,7 +148,7 @@ class ConfigChecker(object):
 
     @staticmethod
     def check_dir_exist(path:Union[str, Path], file:bool=False):
-
+        
         r"""
         Check directory file is exists, if not exists will create one
 
