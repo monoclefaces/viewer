@@ -22,13 +22,14 @@ class PostProcessor(object):
             tensor: `torch.FloatTensor` type, must have size of $(B, C, *)$
         """
         method_dict = {
-            1: [1/3, 1/3, 1/3],            # mean
             3: [0.2126, 0.7152, 0.0722],   # gray-scale (have to rescale to 0~255)
         }
         if collapse_mode == 0:
             return tensor
+        elif collapse_mode == 1:
+            return torch.mean(tensor, dim=1, keepdim=True)
         elif collapse_mode == 2:
-            return torch.max(tensor, dim=1, keepdim=True)[1]
+            return torch.max(tensor, dim=1, keepdim=True)[0]
         else:
             def weighted_sum(x, w):
                 """
